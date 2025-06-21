@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGMA | Operation Launch</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/op.css">
+</head>
+<body>
+    <div class="operation-container">
+        <!-- Operation Sidebar -->
+        <div class="operation-sidebar">
+            <h2>OPERATION LAUNCH CONTROL</h2>
+            
+            <div class="role-selection">
+                <div class="role-card">
+                    <div class="role-title">
+                        <span>DRIVER</span>
+                        <span class="status-indicator status-active"></span>
+                    </div>
+                    <select class="agent-select" id="driverSelect">
+                        <option value="">Select Driver</option>
+                        <option value="agent1">Stamoulis Antonios</option>
+                        <option value="agent2">Fytros Georgios</option>
+                        <option value="agent3">Bousboura Nikoleta</option>
+                        <option value="agent4">Tsimpoukis Aristeidhs</option>
+                    </select>
+                    <div class="agent-status">
+                        <div class="status-indicator status-active"></div>
+                        <span class="gps-status">GPS: Connecting...</span>
+                    </div>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-title">
+                        <span>CENTER</span>
+                        <span class="status-indicator status-active"></span>
+                    </div>
+                    <select class="agent-select" id="centerSelect">
+                        <option value="">Select Center</option>
+                        <option value="agent1">Stamoulis Antonios</option>
+                        <option value="agent2">Fytros Georgios</option>
+                        <option value="agent3">Bousboura Nikoleta</option>
+                        <option value="agent4">Tsimpoukis Aristeidhs</option>
+                    </select>
+                    <div class="agent-status">
+                        <div class="status-indicator status-active"></div>
+                        <span class="gps-status">GPS: Connecting...</span>
+                    </div>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-title">
+                        <span>AGENT I</span>
+                        <span class="status-indicator status-active"></span>
+                    </div>
+                    <select class="agent-select" id="agent1Select">
+                        <option value="">Select Agent I</option>
+                        <option value="agent1">Stamoulis Antonios</option>
+                        <option value="agent2">Fytros Georgios</option>
+                        <option value="agent3">Bousboura Nikoleta</option>
+                        <option value="agent4">Tsimpoukis Aristeidhs</option>
+                    </select>
+                    <div class="agent-status">
+                        <div class="status-indicator status-active"></div>
+                        <span class="gps-status">GPS: Connecting...</span>
+                    </div>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-title">
+                        <span>AGENT II</span>
+                        <span class="status-indicator status-active"></span>
+                    </div>
+                    <select class="agent-select" id="agent2Select">
+                        <option value="">Select Agent II</option>
+                        <option value="agent1">Stamoulis Antonios</option>
+                        <option value="agent2">Fytros Georgios</option>
+                        <option value="agent3">Bousboura Nikoleta</option>
+                        <option value="agent4">Tsimpoukis Aristeidhs</option>
+                    </select>
+                    <div class="agent-status">
+                        <div class="status-indicator status-active"></div>
+                        <span class="gps-status">GPS: Connecting...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="radius-control">
+                <h3>OPERATION RADIUS</h3>
+                <input type="range" min="100" max="5000" value="1000" class="radius-slider" id="radiusSlider" step="50">
+                <div class="radius-value" id="radiusValue">1000 meters</div>
+            </div>
+            
+            <button class="start-op-btn" id="startOperationBtn" disabled>INITIALIZE OPERATION</button>
+        </div>
+        
+        <!-- Operation Map -->
+        <div class="operation-map">
+            <div id="operationMap"></div>
+            
+            <!-- Operation Info Panel -->
+            <div class="operation-info">
+                <h3>OPERATION STATUS</h3>
+                <div class="info-item">
+                    <span class="info-label">Status:</span> <span id="opStatusText">Standby</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Agents Active:</span> <span id="agentsActiveText">0/4</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">GPS Coverage:</span> <span id="gpsCoverageText">0%</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Mission Time:</span> <span id="missionTimeText">00:00:00</span>
+                </div>
+            </div>
+            
+            <!-- Marker Context Menu -->
+            <div class="marker-menu" id="markerMenu">
+                <h4>MARKER OPTIONS</h4>
+                <button id="setVictimBtn">Set as Victim Location</button>
+                <button id="setSuspectBtn">Set as Suspect Location</button>
+                <button id="setLandmarkBtn">Set as Landmark</button>
+                <button id="removeMarkerBtn">Remove Marker</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification System -->
+    <div class="notification" id="notification">
+        <div id="notificationMessage">Notification message here</div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Initializing Operation...</div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="js/operation.js"></script>
+</body>
+</html>

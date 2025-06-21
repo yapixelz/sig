@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapphire | Intelligence Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="scan-line"></div>
+        
+        <div class="login-logo-container">
+            <div class="login-logo">
+                <img src="icons/sig.png" alt="Sapphire Intelligence Group Logo" class="login-logo-img">
+            </div>
+            <h1 class="login-title typewriter">Sapphire Intelligence Group</h1>
+        </div>
+        
+        <div class="login-box">
+            <div class="login-input-group">
+                <label for="agentName">AGENT NAME</label>
+                <input type="text" id="agentName" placeholder="Enter your full name" autocomplete="off" required>
+            </div>
+            
+            <div class="login-input-group">
+                <label for="accessCode">ACCESS CODE</label>
+                <input type="password" id="accessCode" placeholder="Enter your access code" required>
+            </div>
+            
+            <!-- Removed card upload section since we're using simple name/code auth -->
+            
+            <button class="login-btn" id="loginBtn">AUTHENTICATE</button>
+            
+            <div class="login-warning">
+                UNAUTHORIZED ACCESS WILL BE PROSECUTED
+            </div>
+        </div>
+    </div>
+
+    <div class="top-navigation">
+        <button class="nav-btn" id="searchBtnNav">
+            Search People
+        </button>
+            
+        <button class="nav-btn admin-only" id="agentsBtnNav">
+            Show Agents
+        </button>
+            
+        <button class="nav-btn" id="operationsBtnNav">
+            Examine Operations
+        </button>
+            
+        <button class="nav-btn" id="startOpBtnNav">
+            Start Operation
+        </button>
+    </div>
+    
+    <!-- Dashboard Page -->
+    <div class="dashboard-container" id="dashboardPage">
+        <div class="agent-header">
+            <div class="agent-info">
+                <div class="agent-greeting" id="agentGreeting">Hello Agent</div>
+                <button class="logout-btn" id="logoutBtn">LOGOUT</button>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-input" id="firstName" placeholder="First Name">
+                <input type="text" class="search-input" id="lastName" placeholder="Last Name">
+                <input type="text" class="search-input" id="fatherName" placeholder="Father's Name">
+                <input type="text" class="search-input" id="vehiclePlate" placeholder="Vehicle Plate">
+                <button class="search-btn" id="searchBtn">SEARCH</button>
+                <button class="new-user-btn" id="newUserBtn">CREATE NEW TARGET</button>
+            </div>
+        </div>
+        
+        <!-- Admin Panel (will be shown only for admin users) -->
+        <div id="adminPanel" style="display: none;">
+            <div class="admin-section">
+                <h3>ADMIN PANEL</h3>
+                <div class="form-row">
+                    <input type="text" id="newAgentName" placeholder="New Agent Name">
+                    <input type="text" id="newAgentCode" placeholder="Access Code">
+                    <select id="newAgentLevel">
+                        <option value="agent">Agent</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button class="admin-btn" id="addAgentBtn">ADD AGENT</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-info" id="resultsInfo">Perform a search to display results</div>
+        
+        <div class="results-container" id="resultsContainer">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+    
+    <!-- User Detail Page -->
+    <div class="user-detail-container" id="userDetailPage">
+        <div class="user-detail-header">
+            <h2 id="userDetailTitle">Target Details</h2>
+            <button class="back-btn" id="backBtn">BACK TO RESULTS</button>
+        </div>
+        <div class="user-detail-content" id="userDetailContent">
+            <!-- User details will be displayed here -->
+        </div>
+    </div>
+    
+    <!-- New Target Form -->
+    <div class="modal" id="newUserModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <h2>Create New Target</h2>
+            <form id="newUserForm">
+                <div class="form-group">
+                    <label for="newFirstName">First Name</label>
+                    <input type="text" id="newFirstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newLastName">Last Name</label>
+                    <input type="text" id="newLastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newFatherName">Father's Name</label>
+                    <input type="text" id="newFatherName">
+                </div>
+                <div class="form-group">
+                    <label for="newVehiclePlate">Vehicle Plate</label>
+                    <input type="text" id="newVehiclePlate">
+                </div>
+                <div class="form-group">
+                    <label for="newAddress">Address</label>
+                    <input type="text" id="newAddress">
+                </div>
+                <div class="form-group">
+                    <label for="newOccupation">Occupation</label>
+                    <input type="text" id="newOccupation">
+                </div>
+                <div class="form-group">
+                    <label for="newIpAddress">IP Address</label>
+                    <input type="text" id="newIpAddress">
+                </div>
+                <div class="form-group">
+                    <label for="newSteamId">Steam ID</label>
+                    <input type="text" id="newSteamId">
+                </div>
+                <div class="form-group">
+                    <label for="newOtherIds">Other IDs (comma separated)</label>
+                    <input type="text" id="newOtherIds">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newLastSeenLat">Last Seen Latitude</label>
+                        <input type="number" step="0.000001" id="newLastSeenLat">
+                    </div>
+                    <div class="form-group">
+                        <label for="newLastSeenLng">Last Seen Longitude</label>
+                        <input type="number" step="0.000001" id="newLastSeenLng">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newProfilePhoto">Profile Photo URL</label>
+                    <input type="url" id="newProfilePhoto" placeholder="https://example.com/photo.jpg">
+                </div>
+                <button type="submit" class="submit-btn">CREATE TARGET</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
